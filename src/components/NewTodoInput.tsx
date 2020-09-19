@@ -13,8 +13,10 @@ export default function NewTodoInput() {
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    send("NEW_TODO.CHANGE", { value });
+    send({
+      type: "NEW_TODO.CHANGE",
+      value: e.target.value,
+    });
   };
 
   return (
