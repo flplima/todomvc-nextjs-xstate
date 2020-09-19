@@ -4,6 +4,7 @@ import { useService } from "@xstate/react";
 import clsx from "clsx";
 
 import { TodoContext } from "src/state/todo";
+import InputEdit from "./InputEdit";
 
 interface Props {
   todoRef: Interpreter<TodoContext>;
@@ -37,26 +38,10 @@ export default function TodoItem({ todoRef }: Props) {
           onChange={onChangeCheckbox}
           checked={completed}
         />
-        <label onDoubleClick={onDoubleClickLabel}>{title}</label>{" "}
+        <label onDoubleClick={onDoubleClickLabel}>{title}</label>
         <button className="destroy" onClick={() => send("DELETE")} />
       </div>
-      <input
-        className="edit"
-        value={title}
-        onBlur={(_) => send("BLUR")}
-        onChange={(e) => send("CHANGE", { value: e.target.value })}
-        onKeyPress={(e) => {
-          if (e.key === "Enter") {
-            send("COMMIT");
-          }
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "Escape") {
-            send("CANCEL");
-          }
-        }}
-        ref={inputRef}
-      />
+      <InputEdit todoRef={todoRef} />
     </li>
   );
 }
