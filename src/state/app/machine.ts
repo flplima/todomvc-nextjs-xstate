@@ -48,6 +48,16 @@ const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
         todos: (ctx, e) => ctx.todos.filter((todo) => todo.id !== e.id),
       }),
     },
+    "MARK_ALL.COMPLETED": {
+      actions: (ctx) => {
+        ctx.todos.forEach((todo) => todo.ref.send("SET_COMPLETED"));
+      },
+    },
+    "MARK_ALL.ACTIVE": {
+      actions: (ctx) => {
+        ctx.todos.forEach((todo) => todo.ref.send("SET_ACTIVE"));
+      },
+    },
   },
 });
 

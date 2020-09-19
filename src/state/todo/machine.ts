@@ -27,25 +27,42 @@ const todoMachine = Machine<TodoContext, TodoEvent>({
     editing: {
       onEntry: assign({ prevTitle: (ctx) => ctx.title }),
       on: {
-        CHANGE: {
+        "TITLE.CHANGE": {
           actions: assign({
             title: (ctx, e) => e.value,
           }),
         },
-        CHANGE_COMMIT: {
+        "TITLE.COMMIT_CHANGE": {
           target: "reading",
-          actions: sendParent((ctx) => {
-            if (!ctx.title.trim().length) {
-              return { type: "TODO.DELETE", id: ctx.id };
-            }
-            return { type: "TODO.UPDATE", todo: ctx };
-          }),
+          actions: [
+            assign((ctx) => ({ title: ctx.title.trim() })),
+            sendParent((ctx) => {
+              if (!ctx.title.length) {
+                return { type: "TODO.DELETE", id: ctx.id };
+              }
+              return { type: "TODO.UPDATE", todo: ctx };
+            }),
+          ],
         },
-        CHANGE_CANCEL: {
+        "TITLE.CANCEL_CHANGE": {
           target: "reading",
           actions: assign({ title: (ctx) => ctx.prevTitle }),
         },
       },
+    },
+  },
+  on: {
+    SET_ACTIVE: {
+      actions: [
+        assign({ completed: false } as Partial<TodoContext>),
+        sendParent((ctx) => ({ type: "TODO.UPDATE", todo: ctx })),
+      ],
+    },
+    SET_COMPLETED: {
+      actions: [
+        assign({ completed: true } as Partial<TodoContext>),
+        sendParent((ctx) => ({ type: "TODO.UPDATE", todo: ctx })),
+      ],
     },
   },
 });

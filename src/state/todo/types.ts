@@ -17,8 +17,10 @@ export interface TodoStateSchema {
 
 export type TodoEvent =
   | { type: "EDIT"; value: string }
-  | { type: "CHANGE"; value: string }
-  | { type: "CHANGE_COMMIT" }
-  | { type: "CHANGE_CANCEL" }
+  | { type: "TITLE.CHANGE"; value: string }
+  | { type: "TITLE.COMMIT_CHANGE" }
+  | { type: "TITLE.CANCEL_CHANGE" }
   | { type: "TOGGLE_COMPLETE" }
+  | { type: "SET_COMPLETED" }
+  | { type: "SET_ACTIVE" }
   | { type: "DELETE" };

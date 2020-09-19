@@ -1,4 +1,5 @@
 import { NewTodoInput, TodoList, TodoFooter } from "src/components";
+import TodoMarkAll from "src/components/TodoMarkAll";
 
 export default function Home() {
   return (
@@ -8,11 +9,12 @@ export default function Home() {
           <h1>todos</h1>
           <NewTodoInput />
         </header>
+
         <section className="main">
-          <input id="toggle-all" className="toggle-all" type="checkbox" />
-          <label htmlFor="toggle-all">Mark all as complete</label>
+          <TodoMarkAll />
           <TodoList />
         </section>
+
         <TodoFooter />
       </section>
 

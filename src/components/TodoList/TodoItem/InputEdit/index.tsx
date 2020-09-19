@@ -14,16 +14,16 @@ export default function InputEdit({ todoRef }: Props) {
   const inputRef = useRef<HTMLInputElement>();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    send("CHANGE", { value: e.target.value });
+    send("TITLE.CHANGE", { value: e.target.value });
   };
 
   const onBlur = () => {
-    send("CHANGE_COMMIT");
+    send("TITLE.COMMIT_CHANGE");
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    e.key === "Enter" && send("CHANGE_COMMIT");
-    e.key === "Escape" && send("CHANGE_CANCEL");
+    e.key === "Enter" && send("TITLE.COMMIT_CHANGE");
+    e.key === "Escape" && send("TITLE.CANCEL_CHANGE");
   };
 
   const editingRef = useRef<boolean>(false);
