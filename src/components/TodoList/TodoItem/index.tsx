@@ -14,6 +14,14 @@ export default function TodoItem({ todoRef }: Props) {
   const { id, title, completed } = state.context;
   const inputRef = useRef<HTMLInputElement>();
 
+  const onChangeCheckbox = (_: React.ChangeEvent<HTMLInputElement>) => {
+    send("TOGGLE_COMPLETE");
+  };
+
+  const onDoubleClickLabel = (_: React.MouseEvent<HTMLLabelElement>) => {
+    send("EDIT");
+  };
+
   return (
     <li
       key={id}
@@ -26,18 +34,10 @@ export default function TodoItem({ todoRef }: Props) {
         <input
           className="toggle"
           type="checkbox"
-          onChange={(_) => {
-            send("TOGGLE_COMPLETE");
-          }}
+          onChange={onChangeCheckbox}
           checked={completed}
         />
-        <label
-          onDoubleClick={(e) => {
-            send("EDIT");
-          }}
-        >
-          {title}
-        </label>{" "}
+        <label onDoubleClick={onDoubleClickLabel}>{title}</label>{" "}
         <button className="destroy" onClick={() => send("DELETE")} />
       </div>
       <input
