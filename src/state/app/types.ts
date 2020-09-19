@@ -13,4 +13,5 @@ export interface AppStateSchema {
 
 export type AppEvent =
   | { type: "NEW_TODO.COMMIT" }
-  | { type: "NEW_TODO.CHANGE"; value: string };
+  | { type: "NEW_TODO.CHANGE"; value: string }
+  | { type: "TODO.UPDATE"; todo: TodoContext };

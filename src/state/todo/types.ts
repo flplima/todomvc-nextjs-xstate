@@ -13,6 +13,4 @@ export interface TodoStateSchema {
   };
 }
 
-export type TodoEvent =
-  | { type: "NEW_TODO.COMMIT" }
-  | { type: "NEW_TODO.CHANGE"; value: string };
+export type TodoEvent = { type: "TOGGLE_COMPLETE" };

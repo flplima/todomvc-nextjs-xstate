@@ -1,4 +1,4 @@
-import { Machine } from "xstate";
+import { Machine, assign, sendParent } from "xstate";
 import { TodoContext, TodoEvent } from "./types";
 
 const todoMachine = Machine<TodoContext, TodoEvent>({
@@ -6,6 +6,16 @@ const todoMachine = Machine<TodoContext, TodoEvent>({
   initial: "ready",
   states: {
     ready: {},
+  },
+  on: {
+    TOGGLE_COMPLETE: {
+      actions: [
+        assign((ctx) => ({
+          completed: !ctx.completed,
+        })),
+        sendParent((ctx) => ({ type: "TODO.UPDATE", todo: ctx })),
+      ],
+    },
   },
 });
 

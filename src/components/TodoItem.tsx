@@ -1,6 +1,8 @@
 import { useRef } from "react";
 import { Interpreter } from "xstate";
 import { useService } from "@xstate/react";
+import clsx from "clsx";
+
 import { TodoContext } from "src/state/todo";
 
 interface Props {
@@ -14,12 +16,11 @@ export default function TodoItem({ todoRef }: Props) {
 
   return (
     <li
-      // className={cn({
-      //   editing: state.matches("editing"),
-      //   completed,
-      // })}
-      // data-todo-state={completed ? "completed" : "active"}
       key={id}
+      className={clsx({
+        editing: state.matches("editing"),
+        completed,
+      })}
     >
       <div className="view">
         <input
@@ -28,7 +29,6 @@ export default function TodoItem({ todoRef }: Props) {
           onChange={(_) => {
             send("TOGGLE_COMPLETE");
           }}
-          // value={completed}
           checked={completed}
         />
         <label

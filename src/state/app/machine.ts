@@ -33,6 +33,16 @@ const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
         },
       }),
     },
+    "TODO.UPDATE": {
+      actions: assign({
+        todos: (ctx, e) =>
+          ctx.todos.map((todo) => {
+            return todo.id === e.todo.id
+              ? { ...todo, ...e.todo, ref: todo.ref }
+              : todo;
+          }),
+      }),
+    },
   },
 });
 
