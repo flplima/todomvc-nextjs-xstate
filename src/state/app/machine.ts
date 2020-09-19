@@ -43,6 +43,11 @@ const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
           }),
       }),
     },
+    "TODO.DELETE": {
+      actions: assign({
+        todos: (ctx, e) => ctx.todos.filter((todo) => todo.id !== e.id),
+      }),
+    },
   },
 });
 

@@ -13,4 +13,4 @@ export interface TodoStateSchema {
   };
 }
 
-export type TodoEvent = { type: "TOGGLE_COMPLETE" };
+export type TodoEvent = { type: "TOGGLE_COMPLETE" } | { type: "DELETE" };

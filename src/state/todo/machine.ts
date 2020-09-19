@@ -16,6 +16,12 @@ const todoMachine = Machine<TodoContext, TodoEvent>({
         sendParent((ctx) => ({ type: "TODO.UPDATE", todo: ctx })),
       ],
     },
+    DELETE: {
+      actions: sendParent((ctx) => ({
+        type: "TODO.DELETE",
+        id: ctx.id,
+      })),
+    },
   },
 });
 
