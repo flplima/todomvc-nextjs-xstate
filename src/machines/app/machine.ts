@@ -26,6 +26,12 @@ const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
             })),
           })),
         },
+        onError: {
+          target: "ready",
+          actions: () => {
+            alert("There was a problem fetching todos");
+          },
+        },
       },
     },
     persistingTodos: {
@@ -45,6 +51,12 @@ const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
           });
         },
         onDone: "ready",
+        onError: {
+          target: "ready",
+          actions: () => {
+            alert("There was a problem persisting todos");
+          },
+        },
       },
     },
     ready: {},
