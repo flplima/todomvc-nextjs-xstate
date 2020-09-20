@@ -3,9 +3,13 @@ import { useService } from "@xstate/react";
 import { appService } from "src/state/app";
 
 export default function TodoFooter() {
-  const [state] = useService(appService);
+  const [state, send] = useService(appService);
   const { todos } = state.context;
   const activeTodos = todos.filter((todo) => !todo.completed);
+
+  const onClickClearCompleted = () => {
+    send("CLEAR_COMPLETED");
+  };
 
   if (!todos.length) {
     return null;
@@ -30,7 +34,9 @@ export default function TodoFooter() {
         </li>
       </ul>
       {activeTodos.length < todos.length && (
-        <button className="clear-completed">Clear completed</button>
+        <button className="clear-completed" onClick={onClickClearCompleted}>
+          Clear completed
+        </button>
       )}
     </footer>
   );

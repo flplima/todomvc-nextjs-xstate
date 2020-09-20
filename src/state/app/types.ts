@@ -17,4 +17,5 @@ export type AppEvent =
   | { type: "TODO.UPDATE"; todo: TodoContext }
   | { type: "TODO.DELETE"; id: number }
   | { type: "MARK_ALL.ACTIVE" }
-  | { type: "MARK_ALL.COMPLETED" };
+  | { type: "MARK_ALL.COMPLETED" }
+  | { type: "CLEAR_COMPLETED" };
