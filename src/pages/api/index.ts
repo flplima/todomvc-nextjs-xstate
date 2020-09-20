@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import Joi from "joi";
 
 interface Todo {
   id: number;
@@ -16,10 +17,26 @@ const getRequestIp = (req: NextApiRequest) => {
   return Array.isArray(fowardedFor) ? fowardedFor[0] : fowardedFor;
 };
 
+const bodySchema = Joi.array()
+  .items({
+    id: Joi.number().required(),
+    title: Joi.string().required(),
+    completed: Joi.boolean().required(),
+  })
+  .required();
+
 export default (req: NextApiRequest, res: NextApiResponse) => {
   const ip = getRequestIp(req);
+
   if (req.method === "PUT") {
-    data[ip] = req.body;
+    const { error, value } = bodySchema.validate(req.body);
+    if (error) {
+      return res
+        .status(400)
+        .json({ error: "BAD_REQUEST", details: error.details });
+    }
+    data[ip] = value;
   }
+
   res.json(data[ip] || []);
 };

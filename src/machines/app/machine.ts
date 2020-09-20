@@ -38,7 +38,11 @@ const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
               completed: todo.completed,
             }))
           );
-          return fetch("api", { method: "PUT", body });
+          return fetch("api", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body,
+          });
         },
         onDone: "ready",
       },
