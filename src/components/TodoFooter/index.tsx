@@ -1,8 +1,12 @@
+import Link from "next/link";
+import clsx from "clsx";
 import { useService } from "@xstate/react";
 
 import { appService } from "src/state/app";
+import { useHash } from "src/hooks";
 
 export default function TodoFooter() {
+  const hash = useHash();
   const [state, send] = useService(appService);
   const { todos } = state.context;
   const activeTodos = todos.filter((todo) => !todo.completed);
@@ -22,15 +26,27 @@ export default function TodoFooter() {
       </span>
       <ul className="filters">
         <li>
-          <a href="#/" className="selected">
-            All
-          </a>
+          <Link href="/#/">
+            <a
+              className={clsx({
+                selected: !["active", "completed"].includes(hash),
+              })}
+            >
+              All
+            </a>
+          </Link>
         </li>
         <li>
-          <a href="#/active">Active</a>
+          <Link href="/#/active">
+            <a className={clsx({ selected: hash === "active" })}>Active</a>
+          </Link>
         </li>
         <li>
-          <a href="#/completed">Completed</a>
+          <Link href="/#/completed">
+            <a className={clsx({ selected: hash === "completed" })}>
+              Completed
+            </a>
+          </Link>
         </li>
       </ul>
       {activeTodos.length < todos.length && (
