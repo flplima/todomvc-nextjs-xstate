@@ -7,6 +7,8 @@ export interface AppContext {
 
 export interface AppStateSchema {
   states: {
+    fetchingTodos: {};
+    persistingTodos: {};
     ready: {};
   };
 }
@@ -18,4 +20,5 @@ export type AppEvent =
   | { type: "TODO.DELETE"; id: number }
   | { type: "MARK_ALL.ACTIVE" }
   | { type: "MARK_ALL.COMPLETED" }
-  | { type: "CLEAR_COMPLETED" };
+  | { type: "CLEAR_COMPLETED" }
+  | { type: "PERSIST_TODOS" };
