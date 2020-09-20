@@ -1,5 +1,7 @@
 # TodoMVC
 
+![todomvc](https://user-images.githubusercontent.com/20775579/93724553-6d836480-fb7e-11ea-9bc7-f63682d1a0cd.gif)
+
 This is another TodoMVC application, build with Next.js and XState.
 
 ## Try it online
