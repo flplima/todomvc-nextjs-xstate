@@ -1,6 +1,6 @@
 import { useService } from "@xstate/react";
 
-import { appService } from "src/state/app";
+import { appService } from "src/machines/app";
 
 export default function TodoMarkAll() {
   const [state, send] = useService(appService);

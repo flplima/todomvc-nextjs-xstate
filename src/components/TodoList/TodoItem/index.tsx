@@ -2,7 +2,7 @@ import { Interpreter } from "xstate";
 import { useService } from "@xstate/react";
 import clsx from "clsx";
 
-import { TodoContext } from "src/state/todo";
+import { TodoContext } from "src/machines/todo";
 import InputEdit from "./InputEdit";
 
 interface Props {

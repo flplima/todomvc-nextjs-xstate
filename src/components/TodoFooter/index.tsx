@@ -2,7 +2,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { useService } from "@xstate/react";
 
-import { appService } from "src/state/app";
+import { appService } from "src/machines/app";
 import { useHash } from "src/hooks";
 
 export default function TodoFooter() {

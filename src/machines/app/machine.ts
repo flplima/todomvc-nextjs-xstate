@@ -1,7 +1,7 @@
 import { Machine, assign, spawn, send, actions } from "xstate";
 
-import { todoMachine, TodoContext } from "src/state/todo";
-import { AppContext, AppEvent, AppStateSchema } from "src/state/app";
+import { todoMachine, TodoContext } from "src/machines/todo";
+import { AppContext, AppEvent, AppStateSchema } from "src/machines/app";
 
 const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
   id: "app",

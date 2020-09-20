@@ -1,7 +1,7 @@
 import { useService } from "@xstate/react";
 import { useRef } from "react";
 
-import { appService } from "src/state/app";
+import { appService } from "src/machines/app";
 
 export default function NewTodoInput() {
   const inputRef = useRef<HTMLInputElement>();

@@ -1,7 +1,7 @@
 import { useService } from "@xstate/react";
 
-import { appService } from "src/state/app";
-import { TodoContext } from "src/state/todo";
+import { appService } from "src/machines/app";
+import { TodoContext } from "src/machines/todo";
 import { useHash } from "src/hooks";
 import TodoItem from "./TodoItem";
 

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useService } from "@xstate/react";
 import { Interpreter } from "xstate";
 
-import { TodoContext } from "src/state/todo";
+import { TodoContext } from "src/machines/todo";
 
 interface Props {
   todoRef: Interpreter<TodoContext>;
