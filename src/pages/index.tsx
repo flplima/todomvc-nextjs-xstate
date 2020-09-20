@@ -1,5 +1,9 @@
-import { NewTodoInput, TodoList, TodoFooter } from "src/components";
-import TodoMarkAll from "src/components/TodoMarkAll";
+import {
+  NewTodoInput,
+  TodoList,
+  TodoFooter,
+  TodoMarkAll,
+} from "src/components";
 
 export default function Home() {
   return (
