@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { Interpreter } from "xstate";
 import { useService } from "@xstate/react";
 import clsx from "clsx";
@@ -13,7 +12,6 @@ interface Props {
 export default function TodoItem({ todoRef }: Props) {
   const [state, send] = useService(todoRef);
   const { id, title, completed } = state.context;
-  const inputRef = useRef<HTMLInputElement>();
 
   const onChangeCheckbox = (_: React.ChangeEvent<HTMLInputElement>) => {
     send("TOGGLE_COMPLETE");
