@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import {
   NewTodoInput,
   TodoList,
@@ -8,6 +10,10 @@ import {
 export default function Home() {
   return (
     <>
+      <Head>
+        <title>TodoMVC</title>
+      </Head>
+
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
