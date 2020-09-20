@@ -1,32 +1,27 @@
 import { useService } from "@xstate/react";
+import { useRef } from "react";
 
 import { appService } from "src/state/app";
 
 export default function NewTodoInput() {
-  const [state, send] = useService(appService);
-  const { newTodoText } = state.context;
+  const inputRef = useRef<HTMLInputElement>();
+  const [, send] = useService(appService);
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      send("NEW_TODO.COMMIT");
+    if (e.key === "Enter" && inputRef.current) {
+      const title = inputRef.current.value;
+      send("TODO.CREATE", { title });
+      inputRef.current.value = "";
     }
-  };
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    send({
-      type: "NEW_TODO.CHANGE",
-      value: e.target.value,
-    });
   };
 
   return (
     <input
       autoFocus
       className="new-todo"
+      ref={inputRef}
       placeholder="What needs to be done?"
-      value={newTodoText}
       onKeyPress={onKeyPress}
-      onChange={onChange}
     />
   );
 }

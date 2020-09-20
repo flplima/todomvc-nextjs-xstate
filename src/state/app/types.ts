@@ -1,7 +1,6 @@
 import { TodoContext } from "../todo/types";
 
 export interface AppContext {
-  newTodoText: string;
   todos: TodoContext[];
 }
 
@@ -14,8 +13,7 @@ export interface AppStateSchema {
 }
 
 export type AppEvent =
-  | { type: "NEW_TODO.COMMIT" }
-  | { type: "NEW_TODO.CHANGE"; value: string }
+  | { type: "TODO.CREATE"; title: string }
   | { type: "TODO.UPDATE"; todo: TodoContext }
   | { type: "TODO.DELETE"; id: number }
   | { type: "MARK_ALL.ACTIVE" }

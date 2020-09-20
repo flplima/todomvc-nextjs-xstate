@@ -7,7 +7,6 @@ const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
   id: "app",
   initial: "fetchingTodos",
   context: {
-    newTodoText: "Hello todos",
     todos: [],
   },
   states: {
@@ -47,19 +46,13 @@ const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
     ready: {},
   },
   on: {
-    "NEW_TODO.CHANGE": {
-      actions: assign({
-        newTodoText: (ctx, e) => e.value,
-      }),
-    },
-    "NEW_TODO.COMMIT": {
+    "TODO.CREATE": {
       actions: [
         assign({
-          newTodoText: "",
-          todos: (ctx: AppContext) => {
+          todos: (ctx, e) => {
             const newTodo: TodoContext = {
               id: Date.now() + Math.random(),
-              title: ctx.newTodoText.trim(),
+              title: e.title.trim(),
               completed: false,
             };
             newTodo.ref = spawn(todoMachine.withContext(newTodo));
