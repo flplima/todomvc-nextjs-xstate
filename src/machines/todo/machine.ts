@@ -25,12 +25,12 @@ const todoMachine = Machine<TodoContext, TodoEvent>({
       },
     },
     editing: {
-      onEntry: assign({ prevTitle: (ctx) => ctx.title }),
+      entry: assign((ctx) => ({ prevTitle: ctx.title })),
       on: {
         "TITLE.CHANGE": {
-          actions: assign({
-            title: (ctx, e) => e.value,
-          }),
+          actions: assign((_, e) => ({
+            title: e.value,
+          })),
         },
         "TITLE.COMMIT_CHANGE": {
           target: "reading",
@@ -46,7 +46,7 @@ const todoMachine = Machine<TodoContext, TodoEvent>({
         },
         "TITLE.CANCEL_CHANGE": {
           target: "reading",
-          actions: assign({ title: (ctx) => ctx.prevTitle }),
+          actions: assign((ctx) => ({ title: ctx.prevTitle })),
         },
       },
     },
