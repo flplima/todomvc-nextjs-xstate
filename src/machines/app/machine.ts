@@ -77,6 +77,7 @@ const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
         }),
         send("PERSIST_TODOS"),
       ],
+      cond: (ctx, e) => !!e.title.trim().length,
     },
     "TODO.UPDATE": {
       actions: [
