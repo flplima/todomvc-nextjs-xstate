@@ -28,16 +28,11 @@ const bodySchema = Joi.array()
 /**
  * TodoMVC API
  * ----------------
- * PUT /api/ -> Persists and returns all todos from this user (ip based)
  * GET /api/ -> Returns all todos from this user (ip based)
- * GET /api/?all -> Returns all todos from all users
+ * PUT /api/ -> Persists and returns all todos from this user (ip based)
  */
 export default (req: NextApiRequest, res: NextApiResponse) => {
   const ip = getRequestIp(req);
-
-  if ("all" in req.query && req.method === "GET") {
-    return res.json(data);
-  }
 
   if (req.method === "PUT") {
     const { error, value } = bodySchema.validate(req.body);
