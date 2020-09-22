@@ -1,11 +1,8 @@
-import { Interpreter } from "xstate";
-
 export interface TodoContext {
   id: number;
   title: string;
   prevTitle?: string;
   completed: boolean;
-  ref?: Interpreter<TodoContext>;
 }
 
 export interface TodoStateSchema {

@@ -5,7 +5,7 @@ import { appService } from "src/machines/app";
 export default function TodoMarkAll() {
   const [state, send] = useService(appService);
   const { todos } = state.context;
-  const completedTodos = todos.filter((todo) => todo.completed);
+  const completedTodos = todos.filter((todo) => todo.state.context.completed);
   const allCompleted = completedTodos.length === todos.length;
 
   const labelText = `Mark all as ${allCompleted ? "active" : "complete"}`;

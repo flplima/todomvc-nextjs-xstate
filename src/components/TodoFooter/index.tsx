@@ -9,7 +9,7 @@ export default function TodoFooter() {
   const hash = useHash();
   const [state, send] = useService(appService);
   const { todos } = state.context;
-  const activeTodos = todos.filter((todo) => !todo.completed);
+  const activeTodos = todos.filter((todo) => !todo.state.context.completed);
 
   const onClickClearCompleted = () => {
     send("CLEAR_COMPLETED");

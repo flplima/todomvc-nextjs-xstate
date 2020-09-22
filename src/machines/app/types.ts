@@ -1,7 +1,8 @@
+import { Interpreter } from "xstate";
 import { TodoContext } from "../todo/types";
 
 export interface AppContext {
-  todos: TodoContext[];
+  todos: Interpreter<TodoContext>[];
 }
 
 export interface AppStateSchema {
@@ -14,7 +15,7 @@ export interface AppStateSchema {
 
 export type AppEvent =
   | { type: "TODO.CREATE"; title: string }
-  | { type: "TODO.UPDATE"; todo: TodoContext }
+  | { type: "TODO.UPDATE" }
   | { type: "TODO.DELETE"; id: number }
   | { type: "MARK_ALL.ACTIVE" }
   | { type: "MARK_ALL.COMPLETED" }

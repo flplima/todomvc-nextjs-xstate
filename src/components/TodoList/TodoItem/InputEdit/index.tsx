@@ -5,11 +5,11 @@ import { Interpreter } from "xstate";
 import { TodoContext } from "src/machines/todo";
 
 interface Props {
-  todoRef: Interpreter<TodoContext>;
+  todo: Interpreter<TodoContext>;
 }
 
-export default function InputEdit({ todoRef }: Props) {
-  const [state, send] = useService(todoRef);
+export default function InputEdit({ todo }: Props) {
+  const [state, send] = useService(todo);
   const { title } = state.context;
   const inputRef = useRef<HTMLInputElement>();
 

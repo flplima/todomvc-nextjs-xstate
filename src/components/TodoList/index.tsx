@@ -1,3 +1,4 @@
+import { Interpreter } from "xstate";
 import { useService } from "@xstate/react";
 
 import { appService } from "src/machines/app";
@@ -10,12 +11,13 @@ export default function TodoList() {
   const [state] = useService(appService);
   const { todos } = state.context;
 
-  const filterTodoByHash = (todo: TodoContext) => {
+  const filterTodoByHash = (todo: Interpreter<TodoContext>) => {
+    const { completed } = todo.state.context;
     if (hash === "active") {
-      return !todo.completed;
+      return !completed;
     }
     if (hash === "completed") {
-      return todo.completed;
+      return completed;
     }
     return true;
   };
@@ -23,7 +25,7 @@ export default function TodoList() {
   return (
     <ul className="todo-list">
       {todos.filter(filterTodoByHash).map((todo) => (
-        <TodoItem key={todo.id} todoRef={todo.ref} />
+        <TodoItem key={todo.id} todo={todo} />
       ))}
     </ul>
   );

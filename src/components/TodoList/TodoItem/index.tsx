@@ -6,11 +6,11 @@ import { TodoContext } from "src/machines/todo";
 import InputEdit from "./InputEdit";
 
 interface Props {
-  todoRef: Interpreter<TodoContext>;
+  todo: Interpreter<TodoContext>;
 }
 
-export default function TodoItem({ todoRef }: Props) {
-  const [state, send] = useService(todoRef);
+export default function TodoItem({ todo }: Props) {
+  const [state, send] = useService(todo);
   const { id, title, completed } = state.context;
 
   const onChangeCheckbox = (_: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +39,7 @@ export default function TodoItem({ todoRef }: Props) {
         <label onDoubleClick={onDoubleClickLabel}>{title}</label>
         <button className="destroy" onClick={() => send("DELETE")} />
       </div>
-      <InputEdit todoRef={todoRef} />
+      <InputEdit todo={todo} />
     </li>
   );
 }

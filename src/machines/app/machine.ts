@@ -1,6 +1,6 @@
 import { Machine, assign, spawn, send, actions } from "xstate";
 
-import { todoMachine, TodoContext } from "src/machines/todo";
+import { todoMachine } from "src/machines/todo";
 import { AppContext, AppEvent, AppStateSchema } from "src/machines/app";
 
 const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
@@ -20,10 +20,7 @@ const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
         onDone: {
           target: "ready",
           actions: assign((ctx, e) => ({
-            todos: e.data.map((todo) => ({
-              ...todo,
-              ref: spawn(todoMachine.withContext(todo)),
-            })),
+            todos: e.data.map((todo) => spawn(todoMachine.withContext(todo))),
           })),
         },
         onError: {
@@ -37,17 +34,14 @@ const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
     persistingTodos: {
       invoke: {
         src: (ctx) => {
-          const body = JSON.stringify(
-            ctx.todos.map((todo) => ({
-              id: todo.id,
-              title: todo.title,
-              completed: todo.completed,
-            }))
-          );
+          const data = ctx.todos.map((todo) => {
+            const { id, title, completed } = todo.state.context;
+            return { id, title, completed };
+          });
           return fetch("api", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body,
+            body: JSON.stringify(data),
           });
         },
         onDone: "ready",
@@ -64,31 +58,24 @@ const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
   on: {
     "TODO.CREATE": {
       actions: [
-        assign({
-          todos: (ctx, e) => {
-            const newTodo: TodoContext = {
-              id: Date.now() + Math.random(),
-              title: e.title.trim(),
-              completed: false,
-            };
-            newTodo.ref = spawn(todoMachine.withContext(newTodo));
-            return [...ctx.todos, newTodo];
-          },
-        }),
+        assign((ctx, e) => ({
+          todos: [
+            ...ctx.todos,
+            spawn(
+              todoMachine.withContext({
+                id: Date.now() + Math.random(),
+                title: e.title.trim(),
+                completed: false,
+              })
+            ),
+          ],
+        })),
         send("PERSIST_TODOS"),
       ],
       cond: (ctx, e) => !!e.title.trim().length,
     },
     "TODO.UPDATE": {
       actions: [
-        assign({
-          todos: (ctx, e) =>
-            ctx.todos.map((todo) => {
-              return todo.id === e.todo.id
-                ? { ...todo, ...e.todo, ref: todo.ref }
-                : todo;
-            }),
-        }),
         actions.cancel("debounced-persist-todos"),
         send("PERSIST_TODOS", {
           delay: 200,
@@ -99,25 +86,26 @@ const appMachine = Machine<AppContext, AppStateSchema, AppEvent>({
     "TODO.DELETE": {
       actions: [
         assign({
-          todos: (ctx, e) => ctx.todos.filter((todo) => todo.id !== e.id),
+          todos: (ctx, e) =>
+            ctx.todos.filter((todo) => todo.state.context.id !== e.id),
         }),
         send("PERSIST_TODOS"),
       ],
     },
     "MARK_ALL.COMPLETED": {
       actions: (ctx) => {
-        ctx.todos.forEach((todo) => todo.ref.send("SET_COMPLETED"));
+        ctx.todos.forEach((todo) => todo.send("SET_COMPLETED"));
       },
     },
     "MARK_ALL.ACTIVE": {
       actions: (ctx) => {
-        ctx.todos.forEach((todo) => todo.ref.send("SET_ACTIVE"));
+        ctx.todos.forEach((todo) => todo.send("SET_ACTIVE"));
       },
     },
     CLEAR_COMPLETED: {
       actions: [
         assign((ctx) => ({
-          todos: ctx.todos.filter((todo) => !todo.completed),
+          todos: ctx.todos.filter((todo) => !todo.state.context.completed),
         })),
         send("PERSIST_TODOS"),
       ],

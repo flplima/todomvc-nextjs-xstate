@@ -13,7 +13,7 @@ const todoMachine = Machine<TodoContext, TodoEvent>({
             assign((ctx) => ({
               completed: !ctx.completed,
             })),
-            sendParent((ctx) => ({ type: "TODO.UPDATE", todo: ctx })),
+            sendParent("TODO.UPDATE"),
           ],
         },
         DELETE: {
@@ -40,7 +40,7 @@ const todoMachine = Machine<TodoContext, TodoEvent>({
               if (!ctx.title.length) {
                 return { type: "TODO.DELETE", id: ctx.id };
               }
-              return { type: "TODO.UPDATE", todo: ctx };
+              return { type: "TODO.UPDATE" };
             }),
           ],
         },
@@ -55,13 +55,13 @@ const todoMachine = Machine<TodoContext, TodoEvent>({
     SET_ACTIVE: {
       actions: [
         assign({ completed: false } as Partial<TodoContext>),
-        sendParent((ctx) => ({ type: "TODO.UPDATE", todo: ctx })),
+        sendParent("TODO.UPDATE"),
       ],
     },
     SET_COMPLETED: {
       actions: [
         assign({ completed: true } as Partial<TodoContext>),
-        sendParent((ctx) => ({ type: "TODO.UPDATE", todo: ctx })),
+        sendParent("TODO.UPDATE"),
       ],
     },
   },
